@@ -39,9 +39,6 @@ namespace Randy.Core
         }
 
 
-
-
-
         private IChannel GetChannel(ChannelModeEnum mode)
         {
             switch (mode)

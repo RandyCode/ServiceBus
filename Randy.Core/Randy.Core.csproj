@@ -42,10 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum\ChannelModeEnum.cs" />
+    <Compile Include="Model\MessageObject.cs" />
     <Compile Include="Model\TestModel.cs" />
     <Compile Include="RemotingServer.cs" />
     <Compile Include="RemotingClient.cs" />
-    <Compile Include="SignalCommand.cs" />
+    <Compile Include="SignalProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
