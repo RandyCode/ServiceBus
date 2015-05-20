@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Randy.Core
 {
-    public class Remoting : IRemoting
+    public enum ChannelModeEnum
     {
+        HTTP = 1,
+        TCP = 2
+
     }
 }

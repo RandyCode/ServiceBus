@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Randy.Core
 {
-    public interface IRemoting
+    public class SignalProcess
     {
- 
     }
 }
