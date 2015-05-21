@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
@@ -42,16 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum\ChannelModeEnum.cs" />
-    <Compile Include="Model\MessageObject.cs" />
-    <Compile Include="Model\TestModel.cs" />
+    <Compile Include="Object\Message.cs" />
+    <Compile Include="Object\MessageEventInfo.cs" />
+    <Compile Include="Object\RemotingObject.cs" />
+    <Compile Include="Object\MessageEventArgs.cs" />
     <Compile Include="RemotingServer.cs" />
+    <Compile Include="ClientProcess.cs" />
     <Compile Include="RemotingClient.cs" />
+    <Compile Include="TaskQueuer.cs" />
     <Compile Include="SignalProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interface\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
