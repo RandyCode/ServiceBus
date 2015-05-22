@@ -14,11 +14,10 @@ namespace Randy.Server
         static void Main(string[] args)
         {
 
-
             RemotingServer rt = new RemotingServer();
             rt.Start();
-           
 
+     
             Console.Read();
 
 

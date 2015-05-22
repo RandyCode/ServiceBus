@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Http;
@@ -49,22 +51,50 @@ namespace Randy.Core
             serverProvider.TypeFilterLevel = TypeFilterLevel.Full;
 
             IDictionary props = new Hashtable();
-            Random r = new Random();
-              //r.Next(2000, 20000);
-            props["port"] = 8084;
-     
+
+            props["port"] = GetLocalPort();
+            IChannel channel = null;
+
             switch (mode)
             {
                 case ChannelModeEnum.HTTP:
-                    return new HttpClientChannel();
+                    channel = new HttpClientChannel();
+                    break;
 
                 case ChannelModeEnum.TCP:
-                    return new TcpChannel(props, clientProvider, serverProvider);
+                    channel = new TcpChannel(props, clientProvider, serverProvider);
+                    break;
 
                 default:
                     return null;
             }
+
+            return channel;
         }
+
+        private int GetLocalPort()
+        {
+            Random r = new Random();
+            int port = 0;
+            bool isUsed = true;
+
+            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+
+            while (isUsed)
+            {
+                port = r.Next(2000, 20000);
+                foreach (var item in ipEndPoints)
+                {
+                    if (port == item.Port)
+                        isUsed = false;
+                }
+
+            }
+            return port;
+        }
+
+
 
 
     }
