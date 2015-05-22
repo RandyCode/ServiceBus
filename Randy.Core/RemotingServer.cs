@@ -18,23 +18,19 @@ namespace Randy.Core
 
         public void Start()
         {
-            string fileName = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
-            RemotingConfiguration.Configure(fileName, true);
-            RegisterServiceType(typeof(RemotingObject),WellKnownObjectMode.Singleton);
-            RegisterServiceType(typeof(Person), WellKnownObjectMode.Singleton);
-            Console.WriteLine("Server Bus Start.");
 
+            string fileName = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+            RemotingConfiguration.Configure(fileName, false);
+            RegisterServiceType(typeof(RemotingObject),WellKnownObjectMode.Singleton);
+      
+            Console.WriteLine("Server Bus Start.");
             RemotingObject ro = new RemotingObject();
-            var person = new Person();
-            var obj = RemotingServices.Marshal(person, "SayHello");
+            var obj = RemotingServices.Marshal(ro, "RemotingObject");
+
             while (true)
             {
-                string yes = System.Console.ReadLine();
-                if (yes == "yes")
-                {
-                    //执行服务端事件
-                    person.BroadCastInfo("hello");
-                }
+                Console.ReadKey();
+                ro.BroadCastMessage("server broadcast");
             }
 
         }

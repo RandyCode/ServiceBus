@@ -6,34 +6,27 @@ using System.Threading.Tasks;
 
 namespace Randy.Core
 {
-
-    public class Person : MarshalByRefObject
+    public class MessageEventHandlerWapper : MarshalByRefObject
     {
-        public delegate void CHandle(string n);
-        public event CHandle beginEvent;
-
-        private int counter = 0;
-
-        /// <summary>
-        /// 执行事件
-        /// </summary>
-        /// <param name="info"></param>
-        public void BroadCastInfo(string info)
+        public event MessageEventHandler MessageHandler;
+        public void Push(string msg)
         {
-            if (beginEvent != null)
+            if (MessageHandler != null)
             {
-                beginEvent(info);
+                MessageHandler(msg);
             }
         }
-
-
-
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
     }
 
+    [Serializable]
+    public delegate void MessageEventHandler(string msg);  //Message message
 
     public class RemotingObject : MarshalByRefObject
     {
-        public delegate void MessageEventHandler(string msg);  //Message message
         public event MessageEventHandler MessageHandler;
 
         public object Request { get; set; }
@@ -47,23 +40,13 @@ namespace Randy.Core
 
         public void BroadCastMessage(string message)
         {
-            Console.WriteLine("BroadCastMessage();");
+
             if (MessageHandler != null)
             {
-                //try
-                //{
                 MessageHandler(message);
-                //}
-                //catch
-                //{
-
-                //}
 
             }
         }
-
-
-
     }
 
 }
