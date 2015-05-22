@@ -39,7 +39,7 @@ namespace Randy.Core
         /// 客户端激活 对象由自己管理，可调用自定义构造
         /// </summary>
         /// <param name="type"></param>
-        public void RegisterServiceType(Type type)
+        private void RegisterServiceType(Type type)
         {
             RemotingConfiguration.RegisterActivatedServiceType(type);
         }
@@ -49,9 +49,15 @@ namespace Randy.Core
         /// </summary>
         /// <param name="type"></param>
         /// <param name="mode"></param>
-        public void RegisterServiceType(Type type, WellKnownObjectMode wellKnownMode)
+        private void RegisterServiceType(Type type, WellKnownObjectMode wellKnownMode)
         {
             RemotingConfiguration.RegisterWellKnownServiceType(type, type.Name, wellKnownMode);
+        }
+
+
+        public void Stop()
+        {
+ 
         }
 
 

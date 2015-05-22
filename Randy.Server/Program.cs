@@ -15,12 +15,15 @@ namespace Randy.Server
         {
 
             RemotingServer rt = new RemotingServer();
+
             rt.Start();
 
-     
+
+            Console.ReadKey();
+
+            rt.Stop();
+
             Console.Read();
-
-
         }
     }
 }
