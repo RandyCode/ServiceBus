@@ -9,12 +9,22 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Collections.Concurrent;
 
 namespace Randy.Core
 {
     public class RemotingServer
     {
 
+        private BlockingCollection<Message> _blockingCollection;
+        private Dictionary<string, string> _clientList;
+
+
+        public RemotingServer()
+        {
+            _blockingCollection = new BlockingCollection<Message>();
+            _clientList = new Dictionary<string, string>();
+        }
 
         public void Start()
         {
@@ -32,8 +42,16 @@ namespace Randy.Core
                 Console.ReadKey();
                 ro.BroadCastMessage("server broadcast");
             }
-
+            
         }
+
+        public void Stop()
+        {
+ 
+        }
+
+
+        #region Private mehtod
 
         /// <summary>
         /// 客户端激活 对象由自己管理，可调用自定义构造
@@ -52,14 +70,8 @@ namespace Randy.Core
         private void RegisterServiceType(Type type, WellKnownObjectMode wellKnownMode)
         {
             RemotingConfiguration.RegisterWellKnownServiceType(type, type.Name, wellKnownMode);
-        }
-
-
-        public void Stop()
-        {
- 
-        }
-
+        } 
+        #endregion
 
     }
 }
