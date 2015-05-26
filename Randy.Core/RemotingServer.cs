@@ -10,67 +10,87 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Randy.Core
 {
     public class RemotingServer
     {
-
-        private BlockingCollection<Message> _blockingCollection;
+        //待处理队列
+        private BlockingCollection<Message> _workCollection;
         private Dictionary<string, string> _clientList;
+        private ManualResetEvent _manualReset = null;
 
 
         public RemotingServer()
         {
-            _blockingCollection = new BlockingCollection<Message>();
+            _workCollection = new BlockingCollection<Message>();
             _clientList = new Dictionary<string, string>();
+            _manualReset = new ManualResetEvent(false);
         }
+
+
+        public void AddItem(Message msg)
+        {
+            _workCollection.Add(msg);
+        }
+
 
         public void Start()
         {
 
             string fileName = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
             RemotingConfiguration.Configure(fileName, false);
-            RegisterServiceType(typeof(RemotingObject),WellKnownObjectMode.Singleton);
-      
             Console.WriteLine("Server Bus Start.");
             RemotingObject ro = new RemotingObject();
             var obj = RemotingServices.Marshal(ro, "RemotingObject");
 
+            //信号触发
             while (true)
             {
                 Console.ReadKey();
-                ro.BroadCastMessage("server broadcast");
+                ro.BroadCastMessage(new Message { Content = "Broad cast message" });
             }
-            
+
         }
+
 
         public void Stop()
         {
- 
+            _workCollection.Dispose();
         }
+
+        public void WakeUp()
+        {
+            _manualReset.Set();
+        }
+
+        public void ToDoJobs()
+        {
+
+            if (_workCollection.Count <= 0)
+            {
+                _manualReset.Reset();
+                _manualReset.WaitOne();
+            }
+
+            var item = _workCollection.Take();
+        }
+
 
 
         #region Private mehtod
 
-        /// <summary>
-        /// 客户端激活 对象由自己管理，可调用自定义构造
-        /// </summary>
-        /// <param name="type"></param>
+
         private void RegisterServiceType(Type type)
         {
             RemotingConfiguration.RegisterActivatedServiceType(type);
         }
 
-        /// <summary>
-        /// 服务端激活 对象由GC管理 ，调用默认构造
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="mode"></param>
         private void RegisterServiceType(Type type, WellKnownObjectMode wellKnownMode)
         {
             RemotingConfiguration.RegisterWellKnownServiceType(type, type.Name, wellKnownMode);
-        } 
+        }
         #endregion
 
     }

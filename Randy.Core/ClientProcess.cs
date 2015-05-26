@@ -84,12 +84,14 @@ namespace Randy.Core
             while (isUsed)
             {
                 port = r.Next(2000, 20000);
+                bool foundKey = false;
                 foreach (var item in ipEndPoints)
                 {
                     if (port == item.Port)
-                        isUsed = false;
+                        foundKey = true;
                 }
-
+                if (!foundKey)
+                    isUsed = false;
             }
             return port;
         }

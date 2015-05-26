@@ -15,31 +15,25 @@ namespace Randy.Client
         static void Main(string[] args)
         {
 
-
-
             string ip = ConfigurationManager.AppSettings["RemotingServer"];
 
             RemotingClient rt = new RemotingClient();
+            rt.ReceiveMessageHandler += ro_MessageHandler;
             rt.Connect(ChannelModeEnum.TCP, ip);
 
-            var obj = rt.GetRemotingObject();
-            var wapper = new MessageEventHandlerWapper();
 
-            wapper.MessageHandler += ro_MessageHandler;
-            obj.MessageHandler += wapper.Push;
-
-
+            //rt.Send(new Message { AppId = rt.ClientId, Content = "client send msg" });
 
             Console.Read();
 
         }
 
 
-
-        static void ro_MessageHandler(string message)
+        static void ro_MessageHandler(Message message)
         {
 
-            Console.WriteLine("ro_MessageHandler : " + message);
+            Console.WriteLine("server msg : " + message.Content);
         }
+
     }
 }

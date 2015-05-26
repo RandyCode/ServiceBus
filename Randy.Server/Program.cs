@@ -16,14 +16,27 @@ namespace Randy.Server
 
             RemotingServer rt = new RemotingServer();
 
-            rt.Start();
+            try
+            {
+                rt.Start();
+            }
+            catch (Exception ex)
+            { 
+                Console.WriteLine(ex.Message);
+            }
 
 
             Console.ReadKey();
 
             rt.Stop();
 
+
+
+
             Console.Read();
         }
+
+
+
     }
 }

@@ -17,6 +17,7 @@ namespace Randy.Core
     
         public object Content { get; set; }
 
+        public string Target { get; set; }
 
     }
 
