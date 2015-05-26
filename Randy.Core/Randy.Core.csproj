@@ -45,9 +45,7 @@
     <Compile Include="Enum\MessageTargetEnum.cs" />
     <Compile Include="Enum\SerializeTypeEnum.cs" />
     <Compile Include="Enum\ChannelModeEnum.cs" />
-    <Compile Include="Object\ICollectionProcess.cs" />
     <Compile Include="Object\Message.cs" />
-    <Compile Include="Object\ClientObject.cs" />
     <Compile Include="Object\RemotingObjectWrapper.cs" />
     <Compile Include="Object\RemotingObject.cs" />
     <Compile Include="RemotingServer.cs" />

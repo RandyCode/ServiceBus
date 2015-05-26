@@ -32,7 +32,9 @@ namespace Randy.Core
 
         public void AddItem(Message msg)
         {
+            //lock
             _workCollection.Add(msg);
+            Console.WriteLine("add item : id = " + msg.AppId);
         }
 
 
@@ -43,12 +45,9 @@ namespace Randy.Core
             RemotingConfiguration.Configure(fileName, false);
             Console.WriteLine("Server Bus Start.");
             RemotingObject ro = new RemotingObject();
+            ro.SendMessageHandler += SendMessageHandler;
+            ro.RegisterClientHandler += RegisterClientHandler;
             var obj = RemotingServices.Marshal(ro, "RemotingObject");
-
-            //RegisterServiceType(typeof(ClientObject), WellKnownObjectMode.Singleton);
-            RegisterServiceType(typeof(DuplexCalculatorRemoting), WellKnownObjectMode.Singleton);
-
-
 
             //信号触发
             while (true)
@@ -58,6 +57,15 @@ namespace Randy.Core
             }
 
         }
+
+        private void RegisterClientHandler(Message msg)
+        {
+            if (_clientList != null && _clientList.ContainsKey(msg.AppId) == false)
+            {
+                _clientList.Add(msg.AppId, msg.Content.ToString());
+            }
+        }
+
 
 
         public void Stop()
@@ -95,6 +103,11 @@ namespace Randy.Core
         private void RegisterServiceType(Type type, WellKnownObjectMode wellKnownMode)
         {
             RemotingConfiguration.RegisterWellKnownServiceType(type, type.Name, wellKnownMode);
+        }
+
+        private void SendMessageHandler(Message msg)
+        {
+            AddItem(msg);
         }
         #endregion
 

@@ -21,10 +21,13 @@ namespace Randy.Client
             rt.ReceiveMessageHandler += ro_MessageHandler;
             rt.Connect(ChannelModeEnum.TCP, ip);
 
-            var duplex = rt.GetRemotingObject<DuplexCalculatorRemoting>();
-            duplex.Add(1, 2, new CalculatorCallbackHandler());
 
-            //rt.Send(new Message { AppId = rt.ClientId, Content = "client send msg" });
+            while (true)
+            {
+                Console.ReadKey();
+                rt.SendMessage(new Message { AppId = rt.ClientId, Content = "client send msg" });
+
+            }
 
             Console.Read();
 

@@ -27,22 +27,25 @@ namespace Randy.Core
             _process = new ClientProcess(mode, address);
             _messageWrapper = new RemotingObjectWrapper();
             BindReceiveEvent();
-
+            RegisterClient();
         }
 
-     
 
-
-        public void Receive_MessageHandler(Message message)
+        public void SendMessage(Message message)
         {
-            //message from server
-            if (ReceiveMessageHandler != null)
-                ReceiveMessageHandler(message);
+            var obj = GetRemotingObject();
+            obj.SendMessage(message);
         }
 
-        public void Send(Message message)
+        private void RegisterClient()
         {
-            
+            var msg = new Message()
+            {
+                AppId = ClientId,
+                Content = DateTime.Now
+            };
+            var obj = GetRemotingObject();
+            obj.RegisterClient(msg);
         }
 
 
@@ -76,10 +79,16 @@ namespace Randy.Core
             //remoting Client & Server wellknow
             var obj = GetRemotingObject();
             _messageWrapper.OnReceiveMessageHandler += Receive_MessageHandler;
-            obj.MessageHandler += _messageWrapper.ReceiveMessage;
+            obj.ReceiveMessageHandler += _messageWrapper.ReceiveMessage;
+        }
+
+        private void Receive_MessageHandler(Message message)
+        {
+            //message from server
+            if (ReceiveMessageHandler != null)
+                ReceiveMessageHandler(message);
         }
 
 
-   
     }
 }
