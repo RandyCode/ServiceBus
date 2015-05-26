@@ -45,6 +45,11 @@ namespace Randy.Core
             RemotingObject ro = new RemotingObject();
             var obj = RemotingServices.Marshal(ro, "RemotingObject");
 
+            //RegisterServiceType(typeof(ClientObject), WellKnownObjectMode.Singleton);
+            RegisterServiceType(typeof(DuplexCalculatorRemoting), WellKnownObjectMode.Singleton);
+
+
+
             //信号触发
             while (true)
             {
