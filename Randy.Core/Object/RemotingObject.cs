@@ -18,16 +18,16 @@ namespace Randy.Core
 
         public event MessageEventHandler SendMessageHandler;
 
-        public event MessageEventHandler RegisterClientHandler;
+        //public event MessageEventHandler RegisterClientHandler;
 
-        public void RegisterClient(Message message)
-        {
+        //public void RegisterClient(Message message)
+        //{
 
-            if (RegisterClientHandler != null)
-            {
-                RegisterClientHandler(message);
-            }
-        }
+        //    if (RegisterClientHandler != null)
+        //    {
+        //        RegisterClientHandler(message);
+        //    }
+        //}
 
         public void SendMessage(Message message)
         {
@@ -45,7 +45,8 @@ namespace Randy.Core
 
         public void BroadCastMessage(Message message)
         {
-
+            message.Target = MessageTargetEnum.CLIENT;
+            
             if (ReceiveMessageHandler != null)
             {
                 ReceiveMessageHandler(message);

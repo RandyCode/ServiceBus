@@ -35,17 +35,7 @@ namespace Randy.Core
         {
             var obj = GetRemotingObject();
             obj.SendMessage(message);
-        }
-
-        private void RegisterClient()
-        {
-            var msg = new Message()
-            {
-                AppId = ClientId,
-                Content = DateTime.Now
-            };
-            var obj = GetRemotingObject();
-            obj.RegisterClient(msg);
+            Console.WriteLine(DateTime.Now + "> send signal : " + message.Signal.ToString() + " from app : " + message.AppId);
         }
 
 
@@ -71,6 +61,32 @@ namespace Randy.Core
         {
             isConnected = false;
             _process.Unregister();
+            UnRegisterClient();
+        }
+
+
+        private void RegisterClient()
+        {
+            var msg = new Message()
+            {
+                AppId = ClientId,
+                Content = DateTime.Now,
+                Signal = SignalTypeEnum.REGISTER,
+                Target = MessageTargetEnum.SERVER
+            };
+            SendMessage(msg);
+        }
+
+        private void UnRegisterClient()
+        {
+            var msg = new Message()
+            {
+                AppId = ClientId,
+                Content = DateTime.Now,
+                Signal = SignalTypeEnum.UNREGISTER,
+                Target = MessageTargetEnum.SERVER
+            };
+            SendMessage(msg);
         }
 
 

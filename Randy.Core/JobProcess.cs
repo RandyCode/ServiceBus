@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Randy.Core
 {
-    public class SignalProcess
+    public class JobProcess
     {
     }
 }

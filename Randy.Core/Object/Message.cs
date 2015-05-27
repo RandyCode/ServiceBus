@@ -13,11 +13,11 @@ namespace Randy.Core
     {
         public string AppId { get; set; }
 
-        public string Signal { get; set; }
+        public SignalTypeEnum? Signal { get; set; }
     
         public object Content { get; set; }
 
-        public string Target { get; set; }
+        public MessageTargetEnum? Target { get; set; }
 
     }
 

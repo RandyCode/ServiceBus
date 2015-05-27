@@ -19,18 +19,15 @@ namespace Randy.Server
             try
             {
                 rt.Start();
+
+                Console.ReadKey();
+
+                rt.Stop();
             }
             catch (Exception ex)
             { 
                 Console.WriteLine(ex.Message);
             }
-
-
-            Console.ReadKey();
-
-            rt.Stop();
-
-
 
 
             Console.Read();
