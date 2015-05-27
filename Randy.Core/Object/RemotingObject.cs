@@ -14,11 +14,29 @@ namespace Randy.Core
 
     public class RemotingObject : MarshalByRefObject
     {
-        public event MessageEventHandler MessageHandler;
+        public event MessageEventHandler ReceiveMessageHandler;
 
-        //public object Request { get; set; }
+        public event MessageEventHandler SendMessageHandler;
 
-        //public object Response { get; set; }
+        public event MessageEventHandler RegisterClientHandler;
+
+        public void RegisterClient(Message message)
+        {
+
+            if (RegisterClientHandler != null)
+            {
+                RegisterClientHandler(message);
+            }
+        }
+
+        public void SendMessage(Message message)
+        {
+
+            if (SendMessageHandler != null)
+            {
+                SendMessageHandler(message);
+            }
+        }
 
         public override object InitializeLifetimeService()
         {
@@ -28,9 +46,9 @@ namespace Randy.Core
         public void BroadCastMessage(Message message)
         {
 
-            if (MessageHandler != null)
+            if (ReceiveMessageHandler != null)
             {
-                MessageHandler(message);
+                ReceiveMessageHandler(message);
             }
         }
     }

@@ -22,7 +22,12 @@ namespace Randy.Client
             rt.Connect(ChannelModeEnum.TCP, ip);
 
 
-            //rt.Send(new Message { AppId = rt.ClientId, Content = "client send msg" });
+            while (true)
+            {
+                Console.ReadKey();
+                rt.SendMessage(new Message { AppId = rt.ClientId, Content = "client send msg" });
+
+            }
 
             Console.Read();
 

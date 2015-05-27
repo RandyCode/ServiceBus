@@ -17,16 +17,23 @@ namespace Randy.Core
     public class ClientProcess
     {
         private string _address;
+        private IChannel _currentChannel;
 
         public ClientProcess(ChannelModeEnum mode, string address)
         {
-            IChannel channel = GetChannel(mode);
-            ChannelServices.RegisterChannel(channel, false);
+            _currentChannel = GetChannel(mode);
+            ChannelServices.RegisterChannel(_currentChannel, false);
 
             string prefix = (mode == ChannelModeEnum.HTTP) ? "http://" : "tcp://";
             _address = prefix + address;
         }
 
+
+        public void Unregister()
+        {
+            if (_currentChannel != null)
+                ChannelServices.UnregisterChannel(_currentChannel);
+        }
 
         public void RegisterClientType(Type type)
         {
