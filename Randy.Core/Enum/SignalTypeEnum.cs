@@ -10,7 +10,7 @@ namespace Randy.Core
     {
         REGISTER,
         UNREGISTER,
-        JOBITEM,
+        JOB,
         LOG,
         KEEPALIVE
     }

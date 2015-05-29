@@ -65,7 +65,7 @@ namespace Randy.Core
             switch (mode)
             {
                 case ChannelModeEnum.HTTP:
-                    channel = new HttpClientChannel();
+                    channel = new HttpChannel();
                     break;
 
                 case ChannelModeEnum.TCP:

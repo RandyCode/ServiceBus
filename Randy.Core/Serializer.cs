@@ -23,7 +23,7 @@ namespace Randy.Core
             return (T)result;
         }
 
-        public MemoryStream SerilizeAsBinary<T>(T data)
+        public MemoryStream SerilizeAsBinary(object data)
         {
             MemoryStream ms;
             using (ms = new MemoryStream())

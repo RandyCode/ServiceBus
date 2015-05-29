@@ -11,6 +11,7 @@ namespace Randy.Core
     [Serializable]
     public sealed class Message
     {
+        public string Id { get; set; }
         public string AppId { get; set; }
 
         public SignalTypeEnum? Signal { get; set; }

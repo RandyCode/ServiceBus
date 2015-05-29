@@ -18,23 +18,23 @@ namespace Randy.Core
     {
         //待处理队列
         private BlockingCollection<Message> _workCollection;
-        private Dictionary<string, DateTime> _clientList;
         private ManualResetEvent _manualReset = null;
         private string _serverId = Guid.NewGuid().ToString();
+        private JobProcess _jobProcess;
 
         public RemotingServer()
         {
             _workCollection = new BlockingCollection<Message>();
-            _clientList = new Dictionary<string, DateTime>();
             _manualReset = new ManualResetEvent(false);
+            _jobProcess = new JobProcess();
         }
 
 
         public void AddItem(Message msg)
         {
             //lock
-            _workCollection.Add(msg);
-            Console.WriteLine("add item : id = " + msg.AppId);
+            if (msg != null && _workCollection.Any(o => o.Id == msg.Id) == false)
+                _workCollection.Add(msg);
         }
 
 
@@ -46,44 +46,48 @@ namespace Randy.Core
             Console.WriteLine("Server Bus Start.");
             RemotingObject ro = new RemotingObject();
             ro.SendMessageHandler += SendMessageHandler;
-            //ro.RegisterClientHandler += RegisterClientHandler;
             var obj = RemotingServices.Marshal(ro, "RemotingObject");
 
-            //信号触发
-            while (true)
-            {
-                Console.ReadKey();
-                ro.BroadCastMessage(new Message
-                {
-                    Target = MessageTargetEnum.CLIENT,
-                    AppId = _serverId,
-                    Content = "SERVER : Broad cast message"
-                });
-            }
+            //接受client 结果
+            Thread thread = new Thread(ToDoJobs);
+            thread.IsBackground = true;
+            thread.Start();
+
+            //生产，分配任务  。1,client 提出 计算请求， 2，服务器收到(生产消费)分发给其他client处理， 返回结构，再返回给目标客户端
+            //while (true)
+            //{
+            //    Console.ReadKey();
+            //    ro.BroadCastMessage(new Message
+            //    {
+            //        Target = MessageTargetEnum.CLIENT,
+            //        AppId = _serverId,
+            //        Content = " Broad cast message"
+            //    });
+            //}
 
         }
 
 
         public void Stop()
-        {
+        { 
             _workCollection.Dispose();
-        }
-
-        public void WakeUp()
-        {
-            _manualReset.Set();
         }
 
         public void ToDoJobs()
         {
-
-            if (_workCollection.Count <= 0)
+            while (true)
             {
-                _manualReset.Reset();
-                _manualReset.WaitOne();
-            }
 
-            var item = _workCollection.Take();
+                if (_workCollection.Count <= 0)
+                {
+                    _manualReset.Reset();
+                    _manualReset.WaitOne();
+                }
+
+                var item = _workCollection.Take();
+                _jobProcess.Process(item);
+
+            }
         }
 
 
@@ -103,69 +107,12 @@ namespace Randy.Core
 
         private void SendMessageHandler(Message msg)
         {
-            if (msg != null && msg.Signal != null)
-            {
-                switch (msg.Signal)
-                {
-                    case SignalTypeEnum.JOBITEM:
-                        AddItem(msg);
-                        break;
-                    case SignalTypeEnum.REGISTER:
-                        RegisterClient(msg.AppId);
-                        break;
-                    case SignalTypeEnum.UNREGISTER:
-                        UnRegisterClient(msg.AppId);
-                        break;
-                    case SignalTypeEnum.LOG:
-                        //AddItem(msg);
-                        break;
-                    case SignalTypeEnum.KEEPALIVE:
-                        KeepClientAlive(msg.AppId);   //timer run  unregister
-                        break;
-
-                    default: break;
-                }
-
-            }
-
+            AddItem(msg);
+            _manualReset.Set();
             Console.WriteLine(DateTime.Now + "> receive signal : " + msg.Signal.ToString() + " from app : " + msg.AppId);
-
-
         }
 
-        private void KeepClientAlive(string appId)
-        {
-            if (_clientList != null && _clientList.ContainsKey(appId) == true)
-            {
-                lock (_clientList)
-                {
-                    _clientList[appId] = DateTime.Now;
-                }
-            }
-            //UnRegisterClient(msg.AppId);
-        }
 
-        private void RegisterClient(string appId)
-        {
-            if (_clientList != null && _clientList.ContainsKey(appId) == false)
-            {
-                lock (_clientList)
-                {
-                    _clientList.Add(appId, DateTime.Now);
-                }
-            }
-        }
-
-        private void UnRegisterClient(string appId)
-        {
-            if (_clientList != null && _clientList.ContainsKey(appId) == true)
-            {
-                lock (_clientList)
-                {
-                    _clientList.Remove(appId);
-                }
-            }
-        }
         #endregion
 
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,6 @@ namespace Randy.Client
     {
         static void Main(string[] args)
         {
-
             string ip = ConfigurationManager.AppSettings["RemotingServer"];
 
             RemotingClient rt = new RemotingClient();
@@ -22,14 +22,18 @@ namespace Randy.Client
             rt.Connect(ChannelModeEnum.TCP, ip);
 
 
+            var cc = ChannelServices.RegisteredChannels;
+
+            int count = 1;
             while (true)
             {
                 Console.ReadKey();
-                rt.SendMessage(new Message { AppId = rt.ClientId, Content = "client send msg" });
+                rt.SendMessage(new Message { AppId = rt.ClientId, Signal = SignalTypeEnum.JOB, Content = "client send msg ," + count++ });
 
             }
 
-            Console.Read();
+            //rt.DisConnect();
+            //Console.Read();
 
         }
 

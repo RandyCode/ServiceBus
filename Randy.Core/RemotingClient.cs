@@ -35,7 +35,7 @@ namespace Randy.Core
         {
             var obj = GetRemotingObject();
             obj.SendMessage(message);
-            Console.WriteLine(DateTime.Now + "> send signal : " + message.Signal.ToString() + " from app : " + message.AppId);
+            Console.WriteLine(DateTime.Now + "> send signal : " + message.Signal.ToString());
         }
 
 

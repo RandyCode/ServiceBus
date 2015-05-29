@@ -18,17 +18,6 @@ namespace Randy.Core
 
         public event MessageEventHandler SendMessageHandler;
 
-        //public event MessageEventHandler RegisterClientHandler;
-
-        //public void RegisterClient(Message message)
-        //{
-
-        //    if (RegisterClientHandler != null)
-        //    {
-        //        RegisterClientHandler(message);
-        //    }
-        //}
-
         public void SendMessage(Message message)
         {
 
