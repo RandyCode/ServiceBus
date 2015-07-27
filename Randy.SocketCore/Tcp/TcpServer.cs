@@ -14,8 +14,6 @@ namespace Randy.SocketCore.Tcp
         private int _port;
         private Socket _serverSocket = null;
 
-        private Socket _receiveSocket = null;
-
         public TcpServer(int port=9010)
         {
             _port = port;
@@ -42,21 +40,25 @@ namespace Randy.SocketCore.Tcp
             //保持监听 
             while (true)
             {
-                _receiveSocket = _serverSocket.Accept();
-                IPEndPoint clientIp = _receiveSocket.RemoteEndPoint as IPEndPoint;
+                Socket receiveSocket = _serverSocket.Accept();
+                IPEndPoint clientIp = receiveSocket.RemoteEndPoint as IPEndPoint;
                 Console.WriteLine(clientIp.ToString());
                 Console.WriteLine("connect with client:" + clientIp.Address + " at port:" + clientIp.Port);
                 var data = Encoding.UTF8.GetBytes("Server Connected!");
-                _receiveSocket.Send(data, data.Length, SocketFlags.None);
+                receiveSocket.Send(data, data.Length, SocketFlags.None);
 
+                //为每个客户端socket开了一条线程。 可优化，线程重用
                 Thread thrMsg = new Thread(RecieveMsg);
                 thrMsg.IsBackground = true;
-                thrMsg.Start();
+                thrMsg.Start(receiveSocket);
             }
         }
 
-        private void RecieveMsg()
+        private void RecieveMsg(object socket)
         {
+            var receiveSocket = socket as Socket;
+            if (receiveSocket == null)
+                return;
             //循环接受消息
             bool hasEx = false;
             while (!hasEx)
@@ -65,11 +67,11 @@ namespace Randy.SocketCore.Tcp
                 {
                     byte[] arrRequest = new byte[1024 * 1024 * 1];
                     //接收浏览器发来的请求报文，并获取真实 报文长度
-                    int realLength = _receiveSocket.Receive(arrRequest);
+                    int realLength = receiveSocket.Receive(arrRequest);
                     //将数组 转成 请求报文字符串
                     string msg = System.Text.Encoding.UTF8.GetString(arrRequest, 0, realLength);
                     //显示到 窗体
-                    IPEndPoint clientIp = _receiveSocket.RemoteEndPoint as IPEndPoint;
+                    IPEndPoint clientIp = receiveSocket.RemoteEndPoint as IPEndPoint;
                     Console.WriteLine(string.Format("Client[{0}:{1}] say : {2}", clientIp.Address, clientIp.Port, msg));
                     //_receiveSocket.Send(Encoding.UTF8.GetBytes("Server: say again."));
                 }

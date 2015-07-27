@@ -23,10 +23,13 @@ namespace Randy.Client
             //rt.ReceiveMessageHandler += ro_MessageHandler;
             //rt.Connect(ChannelModeEnum.TCP, ip);
 
-            TcpClient client = new TcpClient();
-            var address= Utils.GetLocalmachineIPAddress();
-            client.Connect(address.ToString(), 9010);
+            for (int i = 0; i < 10000; i++)
+            {
+                TcpClient client = new TcpClient();
+                var address = Utils.GetLocalmachineIPAddress();
+                client.Connect(address.ToString(), 9010);
 
+            }
             //int count = 1;
             //while (true)
             //{
@@ -36,7 +39,7 @@ namespace Randy.Client
             //}
 
             //rt.DisConnect();
-            //Console.Read();
+            Console.Read();
 
         }
 
