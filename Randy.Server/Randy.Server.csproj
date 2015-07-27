@@ -53,6 +53,10 @@
       <Project>{94686425-d3e0-4e66-9d7f-43e3b14f6b48}</Project>
       <Name>Randy.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Randy.SocketCore\Randy.SocketCore.csproj">
+      <Project>{04c93558-4340-4f37-9e15-cdb518fa57d1}</Project>
+      <Name>Randy.SocketCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Randy.Core
+namespace Randy.SocketCore.Udp
 {
-    public class TaskQueuer
+    public class UdpClient
     {
     }
 }

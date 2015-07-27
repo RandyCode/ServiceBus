@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dispatcher.cs" />
     <Compile Include="Enum\SignalTypeEnum.cs" />
     <Compile Include="Enum\MessageTargetEnum.cs" />
     <Compile Include="Enum\SerializeTypeEnum.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="ClientProcess.cs" />
     <Compile Include="RemotingClient.cs" />
     <Compile Include="Serializer.cs" />
-    <Compile Include="TaskQueuer.cs" />
     <Compile Include="JobProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

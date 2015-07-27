@@ -1,4 +1,6 @@
 ﻿using Randy.Core;
+using Randy.SocketCore;
+using Randy.SocketCore.Tcp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,20 +19,21 @@ namespace Randy.Client
         {
             string ip = ConfigurationManager.AppSettings["RemotingServer"];
 
-            RemotingClient rt = new RemotingClient();
-            rt.ReceiveMessageHandler += ro_MessageHandler;
-            rt.Connect(ChannelModeEnum.TCP, ip);
+            //RemotingClient rt = new RemotingClient();
+            //rt.ReceiveMessageHandler += ro_MessageHandler;
+            //rt.Connect(ChannelModeEnum.TCP, ip);
 
+            TcpClient client = new TcpClient();
+            var address= Utils.GetLocalmachineIPAddress();
+            client.Connect(address.ToString(), 9010);
 
-            var cc = ChannelServices.RegisteredChannels;
+            //int count = 1;
+            //while (true)
+            //{
+            //    Console.ReadKey();
+            //    rt.SendMessage(new Message { AppId = rt.ClientId, Signal = SignalTypeEnum.JOB, Content = "client send msg ," + count++ });
 
-            int count = 1;
-            while (true)
-            {
-                Console.ReadKey();
-                rt.SendMessage(new Message { AppId = rt.ClientId, Signal = SignalTypeEnum.JOB, Content = "client send msg ," + count++ });
-
-            }
+            //}
 
             //rt.DisConnect();
             //Console.Read();

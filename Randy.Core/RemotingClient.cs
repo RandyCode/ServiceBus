@@ -6,8 +6,12 @@ using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
+///Randy.Core just for remoting test
 namespace Randy.Core
 {
+    /// <summary>
+    /// remoting server 
+    /// </summary>
     public class RemotingClient
     {
 

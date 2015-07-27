@@ -1,4 +1,6 @@
 ﻿using Randy.Core;
+using Randy.SocketCore;
+using Randy.SocketCore.Tcp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,22 +16,24 @@ namespace Randy.Server
     {
         static void Main(string[] args)
         {
+           
+            //RemotingServer rt = new RemotingServer();
 
-            RemotingServer rt = new RemotingServer();
-
-            try
-            {
-                rt.Start();
+            //try
+            //{
+            //    rt.Start();
                 
-                Console.ReadKey();
+            //    Console.ReadKey();
 
-                //rt.Stop();
-            }
-            catch (Exception ex)
-            { 
-                Console.WriteLine(ex.Message);
-            }
+            //    //rt.Stop();
+            //}
+            //catch (Exception ex)
+            //{ 
+            //    Console.WriteLine(ex.Message);
+            //}
 
+            TcpServer server = new TcpServer();
+            server.Start();
 
             Console.Read();
         }

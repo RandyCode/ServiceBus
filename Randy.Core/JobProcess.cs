@@ -25,6 +25,7 @@ namespace Randy.Core
 
         public void Process(Message msg)
         {
+            //仅作转发
             if (msg != null && msg.Signal != null)
             {
                 switch (msg.Signal)

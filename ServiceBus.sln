@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randy.Client", "Randy.Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randy.Server", "Randy.Server\Randy.Server.csproj", "{54E60BA2-C859-4CAD-9DF3-69B89592EB6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Randy.SocketCore", "Randy.SocketCore\Randy.SocketCore.csproj", "{04C93558-4340-4F37-9E15-CDB518FA57D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{54E60BA2-C859-4CAD-9DF3-69B89592EB6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54E60BA2-C859-4CAD-9DF3-69B89592EB6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54E60BA2-C859-4CAD-9DF3-69B89592EB6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C93558-4340-4F37-9E15-CDB518FA57D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C93558-4340-4F37-9E15-CDB518FA57D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C93558-4340-4F37-9E15-CDB518FA57D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C93558-4340-4F37-9E15-CDB518FA57D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

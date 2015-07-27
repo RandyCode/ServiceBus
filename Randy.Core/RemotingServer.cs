@@ -12,8 +12,13 @@ using System.Xml;
 using System.Collections.Concurrent;
 using System.Threading;
 
+
+///Randy.Core just for remoting test
 namespace Randy.Core
 {
+    /// <summary>
+    /// remoting server 
+    /// </summary>
     public class RemotingServer
     {
         //待处理队列
@@ -85,7 +90,7 @@ namespace Randy.Core
                 }
 
                 var item = _workCollection.Take();
-                _jobProcess.Process(item);
+                _jobProcess.Process(item);  //分发器
 
             }
         }

@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1362B9BB-EA50-431F-A34C-18A932AF4D63}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{04C93558-4340-4F37-9E15-CDB518FA57D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Randy.Client</RootNamespace>
-    <AssemblyName>Randy.Client</AssemblyName>
+    <RootNamespace>Randy.SocketCore</RootNamespace>
+    <AssemblyName>Randy.SocketCore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,12 +29,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,22 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="ProtocolTypeEnum.cs" />
+    <Compile Include="Model\MessageInfo.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tcp\TcpServer.cs" />
+    <Compile Include="Tcp\TcpClient.cs" />
+    <Compile Include="Udp\UdpServer.cs" />
+    <Compile Include="Udp\UdpClient.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Randy.Core\Randy.Core.csproj">
-      <Project>{94686425-d3e0-4e66-9d7f-43e3b14f6b48}</Project>
-      <Name>Randy.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Randy.SocketCore\Randy.SocketCore.csproj">
-      <Project>{04c93558-4340-4f37-9e15-cdb518fa57d1}</Project>
-      <Name>Randy.SocketCore</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
